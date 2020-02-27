@@ -1,0 +1,18 @@
+version: '3'
+services:
+    gogs:
+        image: 'gogs/gogs'
+        volumes:
+            - gogs-data:/data
+        ports:
+            - '10022:22'
+        expose:
+            - '3000'
+    haproxy:
+        build: .
+        links:
+            - gogs
+        ports:
+            - '8443:8443'
+volumes:
+    gogs-data:
