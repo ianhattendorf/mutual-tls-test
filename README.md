@@ -19,6 +19,18 @@ $ docker-compose up --build
 
 ## Running node + curl
 
+### Start server (no client cert requested)
+```
+$ node server.js no-client-auth
+```
+
+### Request page without providing client cert: succeeds with 200
+```
+$ curl -v --cacert ./openssl-certs/ca.crt https://localhost:9443
+...
+Request OK.
+```
+
 ### Start server (optional client cert)
 ```
 $ node server.js
@@ -40,7 +52,7 @@ Valid client certificate authentication.
 
 ### Start server (required client cert)
 ```
-$ node server.js true
+$ node server.js reject-unauthorized
 ```
 
 ### Request page without providing client cert: fails with TLS error
