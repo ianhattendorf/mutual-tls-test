@@ -122,3 +122,9 @@ See also:
 
 ## Using CACert Keys
 (removed)
+
+## localhost server
+```$bash
+$ openssl req -out localhost.csr -newkey rsa:2048 -nodes -keyout localhost.key -config san.cnf
+$ openssl x509 -req -in localhost.csr -CA ca.crt -CAkey ca.key -CAserial ca.srl -out localhost.crt -days 1825 -sha256 -extfile san.cnf -extensions req_ext
+```
