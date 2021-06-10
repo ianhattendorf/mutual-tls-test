@@ -18,6 +18,9 @@ const makeRequest = (options) => new Promise((resolve, reject) => {
       reject(err);
     });
   });
+  req.on('error', (err) => {
+    reject(err);
+  })
   req.end();
 });
 
@@ -31,8 +34,12 @@ const main = async () => {
   };
 
   for (let i = 0; i < 4; ++i) {
-    const response = await makeRequest(options);
-    console.log({ response });
+    try {
+      const response = await makeRequest(options);
+      console.log({ response });
+    } catch (err) {
+      console.log({ err });
+    }
   }
 };
 
