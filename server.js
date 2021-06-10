@@ -9,6 +9,8 @@ const main = async () => {
   const key = await fs.readFile('./openssl-certs/localhost.key');
   const ca = await fs.readFile('./openssl-certs/ca.crt');
 
+  console.log({ useClientAuth, rejectUnauthorized });
+
   const options = {
     cert,
     key
@@ -22,17 +24,22 @@ const main = async () => {
   https.createServer(
     options,
     (req, res) => {
+      console.log({
+        auth: req.client.authorized,
+        peerCert: req.client.getPeerCertificate()
+      });
+      console.log(new Date());
       if (useClientAuth && !req.client.authorized) {
         res.writeHead(401);
         return res.end('Invalid client certificate authentication.');
       }
-  
+
       res.writeHead(200);
       res.end(useClientAuth
         ? 'Valid client certificate authentication.'
         : 'Request OK.');
     }
-  ).listen(9443);  
+  ).listen(9443);
 };
 
 main();
